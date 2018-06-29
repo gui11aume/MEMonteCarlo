@@ -1,7 +1,15 @@
-all: rbinom.o
+P= main
+OBJECTS= rbinom.o mt.o
 
-rbinom.o: rbinom.c mt.o
-	gcc -std=gnu99 -Wall -O2 rbinom.c mt.o -lm -c
+CFLAGS= -std=gnu99 -Wall -O3
+
+all: main
+
+$(P): simulate.c $(OBJECTS)
+	gcc $(CFLAGS) $< $(OBJECTS) -lm -o $@
+
+%.o: %.c
+	gcc $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f rbinom.o
+	rm -f $(P) $(OBJECTS)
